@@ -1,0 +1,119 @@
+#mensajes {
+  left: 45%;
+  margin: -250px 0 0 -40%;
+  opacity: 0;
+  position: absolute;
+  top: -850px;
+  visibility: hidden;
+  box-shadow: -10px 25px 5px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  z-index: 999;
+  display: none;
+}
+
+#alerta {
+  left: 45%;
+  margin: -250px 0 0 -40%;
+  opacity: 0;
+  position: absolute;
+  top: -850px;
+  visibility: hidden;
+  box-shadow: -10px 25px 5px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  z-index: 999;
+  display: none;
+}
+
+#mensajes:target {
+  width: 50%;
+  left: 0;
+  margin-left: 25%;
+  display: block;
+  opacity: 1;
+  top: 300px;
+  visibility: visible;
+}
+
+#alerta:target{
+  width: 50%;
+  left: 0;
+  margin-left: 25%;
+  display: block;
+  opacity: 1;
+  top: 300px;
+  visibility: visible;
+}
+
+@media all and (max-width: 1400px) {
+  #alerta:target, #mensajes:target {
+    width: 60%;
+    margin-left: 20%;
+  }
+}
+
+
+@media all and (max-width: 1000px) {
+  #alerta:target, #mensajes:target {
+    width: 70%;
+    margin-left: 15%;
+  }
+}
+
+@media all and (max-width: 700px) {
+  #alerta:target, #mensajes:target {
+    width: 100%;
+    margin-left: 0%;
+  }
+}
+
+#alerta .header, #mensajes .header {
+  border-bottom: 1px solid #e7e7e7;
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+}
+
+#alerta h2, #mensajes h2 {
+  margin: 0;
+}
+
+#alerta p,#mensajes p {
+  text-align: center;
+}
+
+#alerta .copy, #alerta .header, #mensajes .copy, #mensajes .header {
+  padding: 15px;
+}
+
+#alerta .copy, #mensajes .copy {
+  background: #fff;
+}
+
+#alerta .modal-content, #mensajes .modal-content {
+  background: #f7f7f7;
+  position: relative;
+  z-index: 20;
+  border-radius: 5px;
+}
+
+.overlay {
+  background-color: #000;
+  background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index: 10;
+  cursor: default;
+}
+
+#alerta .row,#mensajes .row{
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}

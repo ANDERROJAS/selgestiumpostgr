@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+  
+<!-- Mirrored from vrinv.unprg.edu.pe/Selgestiun/proyectos?titulo=&idCif=0&idtipo=0&idprog=0&idarea=0&idsuba=0&idline=0&idsubl=0&npag=1&calificacion=-&expuesto= by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Jan 2025 04:41:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>Gestión de Tesis UNPRG</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1">
+    <link rel="stylesheet" href="resources/css/googleicons.css"><link rel="shortcut icon" type="image/x-icon" href="resources/img/favicon.ico" />
+    <link rel="stylesheet" type="text/css" href="resources/css/materialize.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/layout2.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/mensaje.css">
+  </head>
+  <body>
+        <div id="modal">
+      <div class="modales">
+        <div class="slider">
+          <div class="section">
+            <div class="flex">
+              <div class="modal-content grey darken-3">
+                <div class="header">
+                  <h2>INICIAR SESIÓN</h2>
+                </div>
+                <div class="copy">
+                  <div class="grupo">
+                    <div class="row">
+                        <form id="iniciosesion" class="col s12" action="https://vrinv.unprg.edu.pe/Selgestiun/login" method="POST" accept-charset="ISO-8859-1" onsubmit="return validar();">
+                        <div class="row">
+                          <div class="input-field col s12"><i class="material-icons prefix">account_circle</i>
+                            <input name="user" id="icon_prefix" type="text" class="validate" required>
+                            <label for="icon_prefix">Usuario</label>
+                          </div>
+                          <div class="input-field col s12"><i class="material-icons prefix">vpn_key</i>
+                            <input name="pass" id="icon_telephone" type="password" class="validate" required>
+                            <label for="icon_telephone">Contraseña</label>
+                          </div>
+                            <label id="mensaje" for="mensaje" hidden>El usuario o contraseña son incorrectos</label>
+                        </div>
+                        <div class="row">
+                            <button type="button" onclick="validar();" class="btn-large waves-effect waves-light center col m4 s4">Ingresar<i class="material-icons right">send</i></button>
+                          <a class="waves-effect waves-light btn-large center col m6 offset-m2 s7 offset-s1 blue lighten-3 olvidar">Olvidé mi Contraseña</a>
+                        </div><a href="#mod" class="col s4 btn red">CERRAR</a>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+              <a href="#"><div class="overlay"></div></a>
+          </div>
+          <div class="section">
+            <div class="flex">
+              <div class="modal-content grey darken-3">
+                <div class="header">
+                  <h2>RECUPERAR CONTRASEÑA</h2>
+                </div>
+                <div class="copy">
+                  <div class="grupo">
+                    <div class="row">
+                        <form class="col s12" action="#" onsubmit="return false;">
+                        <div class="row">
+                          <div class="input-field col s12"><i class="material-icons prefix">account_circle</i>
+                            <input id="correo" name="correo" type="email" class="validate" required>
+                            <label for="icon_prefix">Correo</label>
+                          </div>
+                        </div>
+                        <div class="row" id="btnPass">
+                        <a class="waves-effect waves-light btn-large center col m4 s3 blue lighten-3 regresar">VOLVER</a>
+                        <button type="button" onclick="OlvidePass()" class="waves-effect waves-light btn-large center col m6 offset-m2 s7 offset-s2">Enviar</button>
+                        </div><a href="#mod" id="btnCerrar" class="col s4 btn red">CERRAR				</a>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="#"><div class="overlay"></div></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header>
+      <nav>
+        <div class="nav-wrapper"><a href="index.html" class="brand-logo"><img src="resources/img/prueba.png" class="a"><img src="resources/img/prueba4.png" class="b"></a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#modal" class="waves-effect waves-light btn-large">Iniciar Sesión</a></li>
+            <li><a></a></li>
+            <li><a></a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <script>
+        function validar(){
+            //alert();
+            var user = document.getElementsByName('user')[0].value;
+            var pass = document.getElementsByName('pass')[0].value;
+            $.ajax({
+                async:true,    
+                cache:false,
+                type: 'GET',   
+                url: "/Selgestiun/login/acceso",
+                data: "user="+user+"&pass="+pass, 
+                success:  function(respuesta){
+                    if(respuesta == "true"){
+                        document.getElementById('iniciosesion').submit();
+                    }else{
+                        $('#mensaje').show();
+                    }
+                },
+                beforeSend:function(){},
+                error:function(objXMLHttpRequest){}
+            });
+            return false;
+        }
+        
+        function OlvidePass(){
+            var btnPass = $('#btnPass').html();
+            $('#btnPass').html(loader);
+            $.ajax({
+                async:true,    
+                cache:false,
+                type: 'GET',   
+                url: "/Selgestiun/recuperarlogin",
+                data: "correo="+$("#correo").val(), 
+                success:  function(respuesta){
+                    if(respuesta == "true"){
+                        mensajeToast("INFORMACION","Se envio un correo electronico a la direccion especificada. Accede a tu correo y verifica tus credenciales.");
+                        $("#correo").val("");
+                        $("#btnCerrar").click();
+                    }else{
+                        mensajeToast("ERROR","No se pudo enviar el correo electronico, por favor informa sobre este error a <b>selgestiun@unprg.edu.pe</b>, o revisa el correo electrónico ingresado.");
+                    }
+                    $('#btnPass').html(btnPass);
+                },
+                beforeSend:function(){},
+                error:function(objXMLHttpRequest){}
+            });
+        }
+        
+    </script>
+    <!--MENU HORIZONTAL-->
+    <div class="login hide-on-large-only center s12"><a href="#modal" class="waves-effect waves-light btn-large btntotal">Iniciar Sesión</a></div>
+    <div class="menu">
+      <ul id="dropdownmenu" class="dropdown-content">
+        <!--li><a href="/Selgestiun/categorias?nombre=&tipo=PROGRAMA&idPadre=0&idfac=0&npag=1">Programa</a></li-->
+        <li><a href="categoriasbe32.html?nombre=&amp;tipo=AREA&amp;idPadre=0&amp;idfac=0&amp;npag=1">Área</a></li>
+        <!--li><a href="/Selgestiun/categorias?nombre=&tipo=SUBAREA&idPadre=0&idfac=0&npag=1">Subárea</a></li-->
+        <li><a href="categoriasda0d.html?nombre=&amp;tipo=LINEA&amp;idPadre=0&amp;idfac=0&amp;npag=1">Linea</a></li>
+        <li><a href="categorias9fd2.html?nombre=&amp;tipo=SUBLINEA&amp;idPadre=0&amp;idfac=0&amp;npag=1">Sublinea</a></li>
+      </ul>
+      <div class="row">
+        <div class="col s12 m3"><a href="#!" data-activates="dropdownmenu" class="dropdown-button">Categorías<i class="material-icons">arrow_drop_down</i></a></div>
+        <div class="col s12 m3"><a href="investigadores5c15.html?nombre=&amp;tipo=-&amp;idCif=0&amp;npag=1">Buscar Investigador</a></div>
+        <div class="col s12 m3"><a href="proyectosd227.html?titulo=&amp;idCif=0&amp;idtipo=0&amp;idprog=0&amp;idarea=0&amp;idsuba=0&amp;idline=0&amp;idsubl=0&amp;npag=1&amp;calificacion=-&amp;expuesto=">Buscar Proyecto</a></div>
+        <div class="col s12 m3"><a href="index.html">Ayuda</a></div>
+      </div>
+    </div>
+    <div class="cuerpo row">
+      <!--CONTENIDO-->
+      <div class="contenido col s12">
+        <h4 class="center">Proyectos</h4>
+        <div class="filtros row">
+          <form id="frmFiltros" class="frmFiltros" action="https://vrinv.unprg.edu.pe/Selgestiun/json/proyectos#res" method="GET" accept-charset="ISO-8859-1">
+            <input name="npag" value="1" type="hidden">
+            <input name="idprog" value="0" type="hidden">
+            <input name="idsuba" value="0" type="hidden">
+            <div class="col s12 m4 l3 input-field">
+              <input name="titulo" id="titulo" type="text" class="validate" value="">
+              <label for="titulo">Título o Código</label>
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divTiposProyecto">
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divOficina">
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divProgramas" hidden="">
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divAreas">
+                <input type="hidden" name="idarea" value="0">
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divSubareas" hidden="">
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divLineas">
+                <input type="hidden" name="idline" value="0">
+            </div>
+            <div class="col s12 m4 l3 input-field" id="divSublineas">
+                <input type="hidden" name="idsubl" value="0">
+            </div>
+              <div class="col s12 m4 l3 input-field" hidden="">
+                <select name="calificacion">
+                <option value="-" selected >(NINGUNA)</option>
+                <option value="EXCELENTE"  >EXCELENTE</option>
+                <option value="MUY BUENO"  >MUY BUENO</option>
+                <option value="BUENO"  >BUENO</option>
+                <option value="REGULAR"  >REGULAR</option>
+                </select>
+                <label>Calificación de la Investigación (Solo para investigaciones de ALUMNOS)</label>
+            </div>
+                <div class="col s12 m4 l3 input-field" hidden="">
+                <select name="expuesto">
+                <option value="" selected >(NINGUNO)</option>
+                <option value="true"  >SI</option>
+                <option value="false"  >NO</option>
+                </select>
+                <label>Investigaciones Expuestas (Solo para investigaciones de DOCENTES)</label>
+            </div>
+            <div class="col s12">
+                <button type="button" id="btnBuscar" onclick="buscar();" class="btn waves-effect waves-light">Buscar<i class="material-icons right">search</i></button>
+            </div>
+          </form>
+        </div>
+        <table class="highlight centered resp">
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Título</th>
+              <th>Centro de Investigación</th>
+              <th>Fecha</th>
+              <th>Código</th>
+              <th>Detalles</th>
+            </tr>
+          </thead>
+          <tbody id="bodyProyectos">
+              <tr><td colspan="100">Haga click en buscar para encontrar alguna coincidencia</td></tr>
+          </tbody>
+        </table>
+        <div class="row" id="divPaginacion">
+        </div>
+      </div>
+    </div>
+        <footer class="page-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col l5 s12">
+            <h5 class="white-text">UNIVERSIDAD NACIONAL PEDRO RUIZ GALLO</h5>
+            <p class="grey-text text-lighten-2">Página creada para la mejora de la Gestión de Tesis en las distintas facultad de la UNPRG</p>
+          </div>
+          <div class="col l4 offset-l1 s12">
+            <h5 class="white-text">Enlaces de Interés</h5>
+            <ul>
+              <li><a href="#!" class="grey-text text-lighten-2">Página Principal</a></li>
+              <li><a target="_blank" href="https://www2.unprg.edu.pe/ocaa/index.php" class="grey-text text-lighten-2">OCCA</a></li>
+              <li><a target="_blank" href="https://aplicaciones.unprg.edu.pe:8181/ModuloAutenticacion/" class="grey-text text-lighten-2">Actas Virtuales</a></li>
+              <li><a target="_blank" href="https://www.facebook.com/VRINV/" class="grey-text text-lighten-2">Facebook</a></li>
+            </ul>
+          </div>
+          <div class="col l2">
+            <h5 class="white-text">Desarrollo</h5>
+            <p class="grey-text text-lighten-2">Sergio Huaman Gavidia    sergiohg128@gmail.com</p>
+            <div class="divider"></div>
+            <p class="grey-text text-lighten-2">Eduardo Espinoza Llontop eduardoespinoza20131@gmail.com</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <div class="container">© 2016 Copyright<a href="#!" class="grey-text text-lighten-4 right">v1.0</a></div>
+      </div>
+    </footer>
+    <script src="resources/js/jquery-2.1.4.js"></script>
+    <script src="resources/js/materialize.js"></script>
+    <script src="resources/js/javascript.js"></script>
+    <script src="resources/js/mensaje.js"></script>    <!--div id="alerta">
+      <div class="modal-content">
+        <div class="header">
+            <h2>ADVERTENCIA</h2>
+        </div>
+        <div class="copy row">
+          <div class="grupo col s12">
+            <div class="row">
+                <p id="contenidoalertamodal" style="text-transform: uppercase;"></p>
+            </div>
+            <div class="row">
+              <div class="col s6">
+                  <div class="boton center"><a id="urlalertamodal" class="btn btn-large">ACEPTAR</a></div>
+              </div>
+              <div class="col s6">
+                <div class="boton center"><a href="#" class="btn btn-large red">CANCELAR</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><a href="#">
+        <div class="overlay"></div></a>
+    </div>
+
+    <div id="mensajes">
+      <div class="modal-content">
+        <div class="header">
+          <h2></h2>
+        </div>
+        <div class="copy row">
+          <div class="grupo col s12">
+            <div class="row">
+              <p style="text-transform: uppercase;"></p>
+            </div>
+            <div class="row">
+              <div class="col s12">
+                  <div class="boton center"><a href="#" class="btn btn-large">ACEPTAR</a></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div><a href="#">
+        <div class="overlay"></div></a>
+    </div-->
+    <script>
+        if("".length>0){
+            mensajeToast("","");
+        }
+    </script>
+    <script type="text/javascript">
+        var arrayDisabled = ["btnBuscar"];
+        selectAJAX_JSON("json/centroinvestigacion","","Unidad de Investigación","Id","Abreviatura","divOficina","idCif","slcCIF","0","cargarSelectAreas($(this).val())",true,null,arrayDisabled);
+        selectAJAX_JSON("json/tiposproyecto","modo=","Tipo de investigación","Id","Nombre","divTiposProyecto","idtipo","slcTipoProyecto","0","",true,null,arrayDisabled);
+        function cargarSelectProgramas(idcif){
+            selectAJAX_JSON("json/programas","idcif="+idcif,"Programa de Investigación","Id","Nombre","divProgramas","idprog","slcPrograma","0","cargarSelectAreas($('#slcCIF').val(),$(this).val())",false,null,arrayDisabled);
+            //cargarSelectAreas(0,0);
+        }
+        function cargarSelectAreas(idcif){
+            selectAJAX_JSON("json/areas","idcif="+idcif,"Área de Investigación","Id","Nombre","divAreas","idarea","slcArea","0","cargarSelectLineas($('#slcCIF').val(),$(this).val())",true,null,arrayDisabled);
+            //cargarSelectSubareas(0,0);
+        }
+        function cargarSelectSubareas(idcif,idarea){
+            selectAJAX_JSON("json/subareas","idcif="+idcif+"&idarea="+idarea,"Subarea de Investigación","Id","Nombre","divSubareas","idsuba","slcSubrea","0","cargarSelectLineas($('#slcCIF').val(),$(this).val())",false,null,arrayDisabled);
+            //cargarSelectLineas(0,0);
+        }
+        function cargarSelectLineas(idcif,idsuba){
+            selectAJAX_JSON("json/lineas","idcif="+idcif+"&idsuba="+idsuba,"Línea de Investigación","Id","Nombre","divLineas","idline","slcLinea","0","cargarSelectSublineas($('#slcCIF').val(),$(this).val())",true,null,arrayDisabled);
+            //cargarSelectSublineas(0,0);
+        }
+        function cargarSelectSublineas(idcif,idline){
+            selectAJAX_JSON("json/sublineas","idcif="+idcif+"&idline="+idline,"Sublínea de Investigación","Id","Nombre","divSublineas","idsubl","slcSublinea","0","",true,null,arrayDisabled);
+        }
+        //cargarSelectProgramas(0);
+        function buscar(){
+            cargarTabla_JSON("frmFiltros","bodyProyectos","divPaginacion");
+        }
+    </script>
+  </body>
+
+<!-- Mirrored from vrinv.unprg.edu.pe/Selgestiun/proyectos?titulo=&idCif=0&idtipo=0&idprog=0&idarea=0&idsuba=0&idline=0&idsubl=0&npag=1&calificacion=-&expuesto= by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 23 Jan 2025 04:41:15 GMT -->
+</html>
